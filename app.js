@@ -2,7 +2,7 @@
 const ejs = require('ejs');
 const mongoose = require('mongoose');
 const express = require('express');
-//const encrypt = require('mongoose-encryption');
+const encrypt = require('mongoose-encryption');
 const app = express();
 
 app.use(express.static(__dirname + '/public'));
@@ -15,9 +15,9 @@ const userSchema = new mongoose.Schema({
   password: String
 });
 
-// const secret = "Thisismylittlesecretforencryption";
-//
-// userSchema.plugin(encrypt, {secret: secret, encryptedFields: ['password']});
+const secret = "Thisismylittlesecretforencryption";
+
+userSchema.plugin(encrypt, {secret: secret, encryptedFields: ['password']});
 
 const User = mongoose.model("User", userSchema);
 
