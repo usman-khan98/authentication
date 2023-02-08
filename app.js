@@ -35,11 +35,10 @@ const userSchema = new mongoose.Schema({
   secret: String
 });
 
-//used to hash and salt schema
+
 userSchema.plugin(passportLocalMongoose);
 userSchema.plugin(findOrCreate);
 
-// To see previous levels Check github repository commits section
 
 const User = mongoose.model("User", userSchema);
 
@@ -67,7 +66,7 @@ passport.use(new GoogleStrategy({
   }
 ));
 
-///////////////////   facebook        ////////////////////////
+
 passport.use(new FacebookStrategy({
     clientID: process.env.FACEBOOK_APP_ID,
     clientSecret: process.env.FACEBOOK_APP_SECRET,
@@ -87,10 +86,10 @@ app.get("/auth/facebook",
 app.get("/auth/facebook/secrets",
   passport.authenticate("facebook", { failureRedirect: "/login" }),
   function(req, res) {
-    // Successful authentication, redirect home.
+
     res.redirect("/secrets");
   });
-/////////////////////// facebook code ends here //////////////
+
 
 app.get("/", function(req, res){
   res.render("home");
@@ -123,12 +122,11 @@ app.post("/login", function(req, res){
   })
 })
 
-// google popup authentication if successful google redirects to /auth/google/secrets
+
 app.get('/auth/google',
   passport.authenticate('google', {scope: [ 'profile' ] }
 ));
 
-// authenticate locally
 app.get( '/auth/google/secrets',
     passport.authenticate( 'google', {
         successRedirect: '/secrets',
@@ -153,8 +151,8 @@ app.get("/secrets", function(req, res){
 })
 
 app.get("/submit", function(req, res){
-  // here the req object is used as cookie, if it exists then no need for user to login
-  if(req.isAuthenticated()){  //passport method check if user is logged in
+ 
+  if(req.isAuthenticated()){  
     res.render("submit");
   }
   else {
